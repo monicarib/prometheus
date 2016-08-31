@@ -1,5 +1,5 @@
 ALERT containerAlert
-    IF absent(((time() - container_last_seen{name="your-container-name"}) < 5)) FOR 5s
+    IF absent(((time() - container_last_seen{name="mentoris"}) < 5)) FOR 5s
     LABELS {
 		severity="page"
 	}
@@ -13,3 +13,12 @@ ALERT DiskWillFillIn4Hours
 	LABELS {
 		severity="page"
 	}
+
+ALERT InstanceDown
+	IF up == 0
+	FOR 5m
+	LABELS { severity = "page" }
+	ANNOTATIONS {
+		summary = "Instance {{ $labels.instance }} down",
+		description = "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.",
+  }
